@@ -11,3 +11,12 @@ Implementación Trabajo Práctico Número 3: Difusión de un gas 2D para la mate
 # Dependencias
 
 * [Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+
+# Generador
+
+Parámetros:
+* `n`: cantidad de partículas.
+* `Lx`: largo del sistema en x (0.12).
+* `Ly`: largo del sistema en y (0.09).
+* `staticNFile`: nombre del archivo estático de salida
+* `dynamicNFile` nombre archivo dinámico de salida
