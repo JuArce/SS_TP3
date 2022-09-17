@@ -1,6 +1,7 @@
 package ar.edu.itba.ss.models;
 
 import ar.edu.itba.ss.interfaces.Movable;
+import ar.edu.itba.ss.models.events.Wall;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,6 +43,95 @@ public class Particle implements Movable {
 
     public double distanceTo(Particle particle) {
         return this.position.distanceTo(particle.position) - this.radius - particle.radius;
+    }
+
+    public double getCollisionTime(Particle particle) {
+        // delta_r = (delta_x, delta_y) = (x2 - x1, y2 - y1)
+        double dx = particle.position.getX() - this.position.getX();
+        double dy = particle.position.getY() - this.position.getY();
+
+        // delta_v = (delta_vx, delta_vy) = (vx2 - vx1, vy2 - vy1)
+        double dvx = particle.velocity.getXSpeed() - this.velocity.getXSpeed();
+        double dvy = particle.velocity.getYSpeed() - this.velocity.getYSpeed();
+
+        // sigma = r1 + r2
+        double sigma = particle.radius + this.radius;
+
+        // dr^2 = (delta_x)^2 + (delta_y)^2
+        double drdr = Math.pow(dx, 2) + Math.pow(dy, 2);
+
+        // dv^2 = (delta_vx)^2 + (delta_vy)^2
+        double dvdv = Math.pow(dvx, 2) + Math.pow(dvy, 2);
+
+        // drdv = (delta_x)(delta_vx) + (delta_y)(delta_vy)
+        double dvdr = dx * dvx + dy * dvy;
+
+        if (dvdr >= 0) {
+            return Double.POSITIVE_INFINITY;
+        }
+
+        // d = dvdr^2 - dvdv(drdr - sigma^2)
+        double d = Math.pow(dvdr, 2) - dvdv * (drdr - Math.pow(sigma, 2));
+
+        if (d < 0) {
+            return Double.POSITIVE_INFINITY;
+        }
+
+        return -(dvdr + Math.sqrt(d)) / dvdv;
+    }
+
+    public double getCollisionTime(Wall wall) {
+        return switch (wall) {
+            case LEFT -> (this.radius - this.position.getX()) / this.velocity.getXSpeed();
+            case RIGHT -> (wall.getPosition() - this.radius - this.position.getX()) / this.velocity.getXSpeed();
+            case TOP -> (wall.getPosition() - this.radius - this.position.getY()) / this.velocity.getYSpeed();
+            case BOTTOM -> (this.radius - this.position.getY()) / this.velocity.getYSpeed();
+            default -> Double.POSITIVE_INFINITY;
+        };
+    }
+
+    public void collide(Particle particle) {
+        // delta_r = (delta_x, delta_y) = (x2 - x1, y2 - y1)
+        double dx = particle.position.getX() - this.position.getX();
+        double dy = particle.position.getY() - this.position.getY();
+
+        // delta_v = (delta_vx, delta_vy) = (vx2 - vx1, vy2 - vy1)
+        double dvx = particle.velocity.getXSpeed() - this.velocity.getXSpeed();
+        double dvy = particle.velocity.getYSpeed() - this.velocity.getYSpeed();
+
+        // sigma = r1 + r2
+        double sigma = particle.radius + this.radius;
+
+        // dvdr = (delta_x)(delta_vx) + (delta_y)(delta_vy)
+        double dvdr = dx * dvx + dy * dvy;
+
+        // J = dvdr/sigma
+        double J = dvdr / sigma;
+
+        // Jx = J * (delta_x)/(sigma)
+        double Jx = J * dx / sigma;
+
+        // Jy = J * (delta_y)/(sigma)
+        double Jy = J * dy / sigma;
+
+        // vx1' = vx1 + Jx
+        this.velocity.setXSpeed(this.velocity.getXSpeed() + Jx);
+
+        // vy1' = vy1 + Jy
+        this.velocity.setYSpeed(this.velocity.getYSpeed() + Jy);
+
+        // vx2' = vx2 - Jx
+        particle.velocity.setXSpeed(particle.velocity.getXSpeed() - Jx);
+
+        // vy2' = vy2 - Jy
+        particle.velocity.setYSpeed(particle.velocity.getYSpeed() - Jy);
+    }
+
+    public void collide(Wall wall) {
+        switch (wall) {
+            case LEFT, RIGHT -> this.velocity.setXSpeed(-this.velocity.getXSpeed());
+            case TOP, BOTTOM -> this.velocity.setYSpeed(-this.velocity.getYSpeed());
+        }
     }
 
     @Override
