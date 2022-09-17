@@ -16,6 +16,7 @@ public class Generator {
         final int N = Integer.parseInt(args[0]);
         final double Lx = Double.parseDouble(args[1]);
         final double Ly = Double.parseDouble(args[2]);
+        final double slot = Double.parseDouble(args[3]);
         final double r = 0.0015;
         final double m = 1;
         final double minRandomPositionX = 0 + r;
@@ -26,8 +27,8 @@ public class Generator {
         final double minRandomAngle = 0;
         final double maxRandomAngle = 2 * Math.PI;
 
-        final String staticNFile = "src/main/resources/input/" + args[3];
-        final String dynamicNFile = "src/main/resources/input/" + args[4];
+        final String staticNFile = "src/main/resources/input/" + args[4];
+        final String dynamicNFile = "src/main/resources/input/" + args[5];
 
         final List<Particle> particles = new ArrayList<>();
         int i = 0;
@@ -52,8 +53,9 @@ public class Generator {
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(staticNFile), CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
             writer.writeNext(new String[]{String.valueOf(particles.size())});
-            writer.writeNext(new String[]{String.valueOf(Lx)});
+            writer.writeNext(new String[]{String.valueOf(Lx * 2)});
             writer.writeNext(new String[]{String.valueOf(Ly)});
+            writer.writeNext(new String[]{String.valueOf(slot)});
             particles.forEach(p -> {
                 List<String> line = new ArrayList<>();
                 line.add(String.valueOf(r));
