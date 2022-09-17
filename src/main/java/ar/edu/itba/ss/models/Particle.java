@@ -9,35 +9,35 @@ import java.util.Objects;
 public class Particle implements Movable {
     public static int sequence = 1;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private int id;
-    @Getter
-    @Setter
+    @Getter @Setter
     private double radius;
-    @Getter
-    @Setter
+    @Getter @Setter
+    private double mass;
+    @Getter @Setter
     private Point position;
-    @Getter
-    @Setter
+    @Getter @Setter
     private Velocity velocity;
 
-    public Particle(double radius, Point position, Velocity velocity) {
+    public Particle(double radius, double mass, Point position, Velocity velocity) {
         this.id = sequence++;
         this.radius = radius;
+        this.mass = mass;
         this.position = position;
         this.velocity = velocity;
     }
 
-    public Particle(int id, double radius, Point position, Velocity velocity) {
+    public Particle(int id, double radius, double mass, Point position, Velocity velocity) {
         this.id = id;
         this.radius = radius;
+        this.mass = mass;
         this.position = position;
         this.velocity = velocity;
     }
 
     public Particle(double radius) {
-        this(radius, new Point(0, 0), new Velocity(0, 0));
+        this(radius, 1, new Point(0, 0), new Velocity(0, 0));
     }
 
     public double distanceTo(Particle particle) {

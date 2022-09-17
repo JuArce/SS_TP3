@@ -17,6 +17,7 @@ public class Generator {
         final double Lx = Double.parseDouble(args[1]);
         final double Ly = Double.parseDouble(args[2]);
         final double r = 0.0015;
+        final double m = 1;
         final double minRandomPositionX = 0 + r;
         final double maxRandomPositionX = Lx - r;
         final double minRandomPositionY = 0 + r;
@@ -32,7 +33,7 @@ public class Generator {
         int i = 0;
         int retries = 0;
         while (i < N) {
-            Particle newParticle = new Particle(r,
+            Particle newParticle = new Particle(r, m,
                     new Point(getRandom(minRandomPositionX, maxRandomPositionX), getRandom(minRandomPositionY, maxRandomPositionY)),
                     new Velocity(speed, getRandom(minRandomAngle, maxRandomAngle)));
             System.out.println(newParticle);
@@ -56,6 +57,7 @@ public class Generator {
             particles.forEach(p -> {
                 List<String> line = new ArrayList<>();
                 line.add(String.valueOf(r));
+                line.add(String.valueOf(m));
                 writer.writeNext(line.toArray(new String[0]));
             });
             writer.close();
