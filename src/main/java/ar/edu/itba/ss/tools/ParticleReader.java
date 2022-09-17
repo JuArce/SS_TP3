@@ -24,18 +24,19 @@ public class ParticleReader {
         this.positionFile = new File(positionPath);
     }
 
-    public Pair<Double, Double> read(List<Particle> particles) {
-        Pair<Double, Double> sideLength = readParticles(particles);
+    public Enclosure read(List<Particle> particles) {
+        Enclosure enclosure = readParticles(particles);
         readPositions(particles);
-        return sideLength;
+        return enclosure;
     }
 
-    private Pair<Double, Double> readParticles(List<Particle> particles) {
+    private Enclosure readParticles(List<Particle> particles) {
         int particleCount;
         List<String> lines = getLines(particleFile);
 
         particleCount = Integer.parseInt(lines.remove(0).trim());
-        var sideLength = new Pair<>(Double.parseDouble(lines.remove(0).trim()),
+        Enclosure enclosure = new Enclosure(Double.parseDouble(lines.remove(0).trim()),
+                Double.parseDouble(lines.remove(0).trim()),
                 Double.parseDouble(lines.remove(0).trim()));
 
         if (lines.size() != particleCount) {
@@ -47,7 +48,7 @@ public class ParticleReader {
             // radio | masa
             particles.add(new Particle(Double.parseDouble(s[0]), Double.parseDouble(s[1])));
         });
-        return sideLength;
+        return enclosure;
     }
 
     private void readPositions(List<Particle> particles) {
