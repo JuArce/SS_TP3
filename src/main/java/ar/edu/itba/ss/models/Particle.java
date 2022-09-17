@@ -36,8 +36,8 @@ public class Particle implements Movable {
         this.velocity = velocity;
     }
 
-    public Particle(double radius) {
-        this(radius, 1, new Point(0, 0), new Velocity(0, 0));
+    public Particle(double radius, double mass) {
+        this(radius, mass, new Point(0, 0), new Velocity(0, 0));
     }
 
     public double distanceTo(Particle particle) {
