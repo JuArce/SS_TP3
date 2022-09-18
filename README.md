@@ -20,16 +20,17 @@ Para compilar el proyecto, se debe ejecutar el siguiente comando en la raíz del
 maven clean install
 ```
 
-# Generador
+## Generator
 
 Parámetros:
 * `n`: cantidad de partículas.
 * `Lx`: largo del sistema en x (0.12).
 * `Ly`: largo del sistema en y (0.09).
+* `k`: ancho de la ranura.
 * `staticNFile.csv`: nombre del archivo estático de salida.
 * `dynamicNFile.csv` nombre del archivo dinámico de salida.
 
-# App
+## App
 
 Parámetros:
 * `pathToStaticNFile.csv`: nombre del path al archivo estático de entrada.
