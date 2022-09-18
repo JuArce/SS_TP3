@@ -86,7 +86,7 @@ public class Particle implements Movable {
             case RIGHT -> (wall.getPosition() - this.radius - this.position.getX()) / this.velocity.getXSpeed();
             case TOP -> (wall.getPosition() - this.radius - this.position.getY()) / this.velocity.getYSpeed();
             case BOTTOM -> (this.radius - this.position.getY()) / this.velocity.getYSpeed();
-            default -> Double.POSITIVE_INFINITY;
+            case MIDDLE -> (wall.getPosition() - (this.radius * Math.signum(this.velocity.getXSpeed())) - this.position.getX()) / this.velocity.getXSpeed();
         };
     }
 
@@ -129,7 +129,7 @@ public class Particle implements Movable {
 
     public void collide(Wall wall) {
         switch (wall) {
-            case LEFT, RIGHT -> this.velocity.setXSpeed(-this.velocity.getXSpeed());
+            case LEFT, RIGHT, MIDDLE -> this.velocity.setXSpeed(-this.velocity.getXSpeed());
             case TOP, BOTTOM -> this.velocity.setYSpeed(-this.velocity.getYSpeed());
         }
     }
@@ -138,6 +138,16 @@ public class Particle implements Movable {
     public void move(double dt) {
         this.position.setX(this.position.getX() + this.velocity.getXSpeed() * dt);
         this.position.setY(this.position.getY() + this.velocity.getYSpeed() * dt);
+    }
+
+    @Override
+    public double computeY(double t) {
+        return this.position.getY() + this.velocity.getYSpeed() * t;
+    }
+
+    @Override
+    public double computeX(double t) {
+        return this.position.getX() + this.velocity.getXSpeed() * t;
     }
 
     @Override

@@ -7,7 +7,7 @@ public enum Wall {
     RIGHT(1),
     TOP(1),
     BOTTOM(0),
-    SLOT(0.5);
+    MIDDLE(0.5);
 
     @Getter
     private double position;
