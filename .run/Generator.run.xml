@@ -2,7 +2,7 @@
   <configuration default="false" name="Generator" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="ar.edu.itba.ss.Generator" />
     <module name="SS_TP3" />
-    <option name="PROGRAM_PARAMETERS" value="50 0.12 0.09 static.csv dynamic.csv" />
+    <option name="PROGRAM_PARAMETERS" value="200 0.12 0.09 0.01 static.csv dynamic.csv" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="ar.edu.itba.ss.*" />
