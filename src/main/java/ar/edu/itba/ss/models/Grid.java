@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Grid {
     @Getter
-    private final List<Particle> particles;
+    private final Set<Particle> particles;
     private final double width;
     private final double height;
     private final double slot;
@@ -18,7 +18,7 @@ public class Grid {
     private Set<Event> computedCollisions = new HashSet<>();
 
     public Grid(List<Particle> particles, double width, double height, double slot) {
-        this.particles = particles;
+        this.particles = new HashSet<>(particles);
         this.width = width;
         this.height = height;
         this.slot = slot;

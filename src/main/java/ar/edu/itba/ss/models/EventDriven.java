@@ -14,8 +14,8 @@ public class EventDriven {
     }
 
     public void simulate() {
-        // TODO
         for (int i = 0; i < this.iterations; i++) {
+            this.exporter.export(i, this.grid.getParticles());
             this.grid.update();
         }
     }

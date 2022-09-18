@@ -32,8 +32,13 @@ public class App {
 
         Grid grid = new Grid(particles, enclosure.width(), enclosure.height(), enclosure.slot());
 
-        EventDriven eventDriven = new EventDriven(iterations, grid, null);
+        Exporter exporter = new CsvExporter(outputFilename);
+        exporter.open();
+
+        EventDriven eventDriven = new EventDriven(iterations, grid, exporter);
         eventDriven.simulate();
+
+        exporter.close();
 
         Instant end = Instant.now();
         System.out.println("Simulation: " + Duration.between(start, end));
