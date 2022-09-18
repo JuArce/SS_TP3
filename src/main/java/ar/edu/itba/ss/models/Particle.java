@@ -105,8 +105,8 @@ public class Particle implements Movable {
         // dvdr = (delta_x)(delta_vx) + (delta_y)(delta_vy)
         double dvdr = dx * dvx + dy * dvy;
 
-        // J = dvdr/sigma
-        double J = dvdr / sigma;
+        // J = 2 * mi mj * dvdr/sigma * (mi +mj)
+        double J = 2 * particle.getMass() * this.getMass() * dvdr / (sigma  * (particle.getMass() + this.getMass()));
 
         // Jx = J * (delta_x)/(sigma)
         double Jx = J * dx / sigma;
@@ -114,17 +114,20 @@ public class Particle implements Movable {
         // Jy = J * (delta_y)/(sigma)
         double Jy = J * dy / sigma;
 
-        // vx1' = vx1 + Jx
-        this.velocity.setXSpeed(this.velocity.getXSpeed() + Jx);
+        // vx1' = vx1 + Jx / mi
+        this.velocity.setXSpeed(this.velocity.getXSpeed() + Jx / this.getMass());
 
-        // vy1' = vy1 + Jy
-        this.velocity.setYSpeed(this.velocity.getYSpeed() + Jy);
+        // vy1' = vy1 + Jy / mi
+        this.velocity.setYSpeed(this.velocity.getYSpeed() + Jy / this.getMass());
 
-        // vx2' = vx2 - Jx
-        particle.velocity.setXSpeed(particle.velocity.getXSpeed() - Jx);
+        if (Double.compare(particle.getMass(), 100_000) == 0) {
+            return;
+        }
+        // vx2' = vx2 - Jx / mj
+        particle.velocity.setXSpeed(particle.velocity.getXSpeed() - Jx / particle.getMass());
 
-        // vy2' = vy2 - Jy
-        particle.velocity.setYSpeed(particle.velocity.getYSpeed() - Jy);
+        // vy2' = vy2 - Jy / mj
+        particle.velocity.setYSpeed(particle.velocity.getYSpeed() - Jy / particle.getMass());
     }
 
     public void collide(Wall wall) {

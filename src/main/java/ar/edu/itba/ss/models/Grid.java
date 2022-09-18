@@ -26,8 +26,8 @@ public class Grid {
         this.height = height;
         this.slot = slot;
         setWallPositions(height, width);
-        this.middleTopWall = new Particle(0, Double.POSITIVE_INFINITY, new Point(width / 2, (height + slot) / 2), new Velocity(0, 0));
-        this.middleBottomWall = new Particle(0, Double.POSITIVE_INFINITY, new Point(width / 2, (height - slot) / 2), new Velocity(0, 0));
+        this.middleTopWall = new Particle(0, 100_000, new Point(width / 2, (height + slot) / 2), new Velocity(0, 0));
+        this.middleBottomWall = new Particle(0, 100_000, new Point(width / 2, (height - slot) / 2), new Velocity(0, 0));
     }
 
     private void setWallPositions(double height, double width) {
@@ -65,12 +65,14 @@ public class Grid {
         double tcTop = particle.getCollisionTime(middleTopWall);
         double tcBot = particle.getCollisionTime(middleBottomWall);
         double tc = Math.min(tcTop, tcBot);
-        if (tc != Double.POSITIVE_INFINITY && tc <= particle.getCollisionTime(Wall.MIDDLE)) {
+        double tMiddleWall = particle.getCollisionTime(Wall.MIDDLE);
+        double aux = tMiddleWall < 0 ? Double.POSITIVE_INFINITY : tMiddleWall;
+        if (tc != Double.POSITIVE_INFINITY && tc <= aux) {
             return new ParticlesEvent(particle, tcTop < tcBot ? middleTopWall : middleBottomWall, tc);
         }
 
-        tc = particle.getCollisionTime(Wall.MIDDLE);
-        if (particle.computeY(tc) < (this.height - this.slot) / 2 || particle.computeY(tc) > (this.height + this.slot) / 2) {
+        tc = tMiddleWall;
+        if (particle.computeY(tc) - particle.getRadius() < (this.height - this.slot) / 2 || particle.computeY(tc) + particle.getRadius() > (this.height + this.slot) / 2) {
             return new WallEvent(particle, Wall.MIDDLE, tc);
         }
         return particle.getVelocity().getXSpeed() > 0 ?
@@ -104,7 +106,6 @@ public class Grid {
                 .forEach(particle -> particle.move(event.getTc()));
 
         event.collide();
-        this.computedCollisions.remove(event);
 
         this.computedCollisions = new HashSet<>();
     }
