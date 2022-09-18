@@ -41,7 +41,7 @@ public class Grid {
     }
 
     private void computeWallCollisions(Particle particle) {
-        final Event xEvent = getMiddleWallCollision(particle);
+        final Event xEvent = getVerticalWallCollision(particle);
         computedCollisions.add(xEvent);
 
         Wall wall;
@@ -55,10 +55,7 @@ public class Grid {
         computedCollisions.add(yEvent);
     }
 
-    private Event getMiddleWallCollision(Particle particle) {
-        if(particle.getId() == 43) {
-            System.out.println(43);
-        }
+    private Event getVerticalWallCollision(Particle particle) {
         if (particle.getVelocity().getXSpeed() < 0 && particle.getPosition().getX() + particle.getRadius() <= Wall.MIDDLE.getPosition()) {
             return new WallEvent(particle, Wall.LEFT, particle.getCollisionTime(Wall.LEFT));
         } else if (particle.getVelocity().getXSpeed() > 0 && particle.getPosition().getX() - particle.getRadius() >= Wall.MIDDLE.getPosition()) {
@@ -68,7 +65,7 @@ public class Grid {
         double tcTop = particle.getCollisionTime(middleTopWall);
         double tcBot = particle.getCollisionTime(middleBottomWall);
         double tc = Math.min(tcTop, tcBot);
-        if (tc != Double.POSITIVE_INFINITY) {
+        if (tc != Double.POSITIVE_INFINITY && tc <= particle.getCollisionTime(Wall.MIDDLE)) {
             return new ParticlesEvent(particle, tcTop < tcBot ? middleTopWall : middleBottomWall, tc);
         }
 
@@ -99,10 +96,9 @@ public class Grid {
             computeParticleCollisions(particle);
         });
 
-        Event event = this.computedCollisions.stream().min(Comparator.comparing(Event::getTc)).orElseThrow();
-        if (event.getTc() < 0) {
-            System.out.println("Negative time");
-        }
+        Event event = this.computedCollisions.stream()
+                .filter(Event::isValid)
+                .min(Comparator.comparing(Event::getTc)).orElseThrow();
 
         this.particles
                 .forEach(particle -> particle.move(event.getTc()));

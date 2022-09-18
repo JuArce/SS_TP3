@@ -15,6 +15,9 @@ public class EventDriven {
 
     public void simulate() {
         for (int i = 0; i < this.iterations; i++) {
+            if(i % 100 == 0) {
+                System.out.println(i);
+            }
             this.exporter.export(i, this.grid.getParticles());
             this.grid.update();
         }

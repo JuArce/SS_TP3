@@ -13,4 +13,8 @@ public interface Event extends Comparable<Event> {
     double getTc();
 
     void setTc(double tc);
+
+    default boolean isValid() {
+        return getTc() >= 0;
+    }
 }
