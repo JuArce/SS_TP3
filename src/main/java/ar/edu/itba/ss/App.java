@@ -6,6 +6,7 @@ import ar.edu.itba.ss.models.Grid;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.tools.CsvExporter;
 import ar.edu.itba.ss.tools.FpExporter;
+import ar.edu.itba.ss.tools.OvitoExporter;
 import ar.edu.itba.ss.tools.ParticleReader;
 
 import java.io.IOException;
@@ -25,6 +26,7 @@ public class App {
         String positionPath = args[1];
         String outputFilename = args.length < 3 ? "output.csv" : args[2];
         String fpFilename = args.length < 4 ? "output_fp.csv" : args[3];
+        String ovitoFilename = args.length < 5 ? "output_ovito.csv" : args[4];
 
         Instant start = Instant.now();
 
@@ -36,8 +38,9 @@ public class App {
 
         Exporter csvExporter = new CsvExporter(outputFilename);
         Exporter fpExporter = new FpExporter(fpFilename, enclosure.width());
+        Exporter ovitoExporter = new OvitoExporter(ovitoFilename);
 
-        List<Exporter> exporters = List.of(csvExporter, fpExporter);
+        List<Exporter> exporters = List.of(csvExporter, fpExporter, ovitoExporter);
         exporters.forEach(Exporter::open);
 
         EventDriven eventDriven = new EventDriven(iterations, grid, exporters);
