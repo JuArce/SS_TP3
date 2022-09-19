@@ -12,6 +12,10 @@ Implementación Trabajo Práctico Número 3: Difusión de un gas 2D para la mate
 
 * [Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 
+# Diagrama UML
+
+![UML](./docs/UML.png)
+
 # Compilación
 
 Para compilar el proyecto, se debe ejecutar el siguiente comando en la raíz del proyecto:
