@@ -21,6 +21,9 @@ public class OvitoExporter implements Exporter {
     @Override
     public void open() {
         try {
+            CSVWriter writer = new CSVWriter(new FileWriter(baseFilename + filename));
+            writer.close();
+
             this.csvWriterAppender = new CSVWriter(new FileWriter(baseFilename + filename, true), ' ', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
         } catch (Exception e) {
             e.printStackTrace();
