@@ -5,7 +5,7 @@ import ar.edu.itba.ss.models.Particle;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ParticlesEvent implements Event {
@@ -26,13 +26,13 @@ public class ParticlesEvent implements Event {
     }
 
     @Override
-    public List<Particle> getParticles() {
-        return List.of(particle1, particle2);
+    public void collide() {
+        this.particle1.collide(this.particle2);
     }
 
     @Override
-    public void collide() {
-        this.particle1.collide(this.particle2);
+    public String toString() {
+        return String.format(Locale.ROOT, "PC %s %s %g", particle1.getId(), particle2.getId(), tc);
     }
 
     @Override

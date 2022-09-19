@@ -1,5 +1,6 @@
 package ar.edu.itba.ss.tools;
 
+import ar.edu.itba.ss.interfaces.Event;
 import ar.edu.itba.ss.interfaces.Exporter;
 import ar.edu.itba.ss.models.Particle;
 import com.opencsv.CSVWriter;
@@ -28,8 +29,9 @@ public class CsvExporter implements Exporter {
     }
 
     @Override
-    public void export(int i, Set<Particle> particles) {
+    public void export(int i, Set<Particle> particles, Event event) {
         try {
+            csvWriterAppender.writeNext(new String[]{event != null ? event.toString() : ""});
             particles.forEach(p -> {
                 String line = i + " " + p.toString();
                 csvWriterAppender.writeNext(line.split(" "));

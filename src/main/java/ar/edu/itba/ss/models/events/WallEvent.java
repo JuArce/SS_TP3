@@ -5,7 +5,7 @@ import ar.edu.itba.ss.models.Particle;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class WallEvent implements Event {
@@ -26,13 +26,13 @@ public class WallEvent implements Event {
     }
 
     @Override
-    public List<Particle> getParticles() {
-        return List.of(particle);
+    public void collide() {
+        this.particle.collide(this.wall);
     }
 
     @Override
-    public void collide() {
-        this.particle.collide(this.wall);
+    public String toString() {
+        return String.format(Locale.ROOT ,"WC %s %s %g", particle.getId(), wall, tc);
     }
 
     @Override

@@ -20,6 +20,9 @@ public class Grid {
     private final Particle middleTopWall;
     private final Particle middleBottomWall;
 
+    @Getter
+    private Event currentCollision;
+
     public Grid(List<Particle> particles, double width, double height, double slot) {
         this.particles = new HashSet<>(particles);
         this.width = width;
@@ -101,6 +104,8 @@ public class Grid {
         Event event = this.computedCollisions.stream()
                 .filter(Event::isValid)
                 .min(Comparator.comparing(Event::getTc)).orElseThrow();
+
+        this.currentCollision = event;
 
         this.particles
                 .forEach(particle -> particle.move(event.getTc()));

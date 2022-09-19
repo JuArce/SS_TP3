@@ -18,7 +18,7 @@ public class EventDriven {
             if(i % 100 == 0) {
                 System.out.println(i);
             }
-            this.exporter.export(i, this.grid.getParticles());
+            this.exporter.export(i, this.grid.getParticles(), this.grid.getCurrentCollision());
             this.grid.update();
         }
     }
