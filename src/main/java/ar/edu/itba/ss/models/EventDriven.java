@@ -21,7 +21,7 @@ public class EventDriven {
 
     public void simulate() {
         int i = 0;
-        while((tFinal == null || t < tFinal)) {
+        while((tFinal == null || t < tFinal) && i < iterations) {
             int finalI = i;
             this.exporters.forEach(e -> e.export(finalI, this.grid.getParticles(), this.grid.getCurrentCollision()));
             this.grid.update();

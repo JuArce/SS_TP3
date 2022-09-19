@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Set;
 
 public class FpExporter implements Exporter {
-    private static final String baseFilename = "src/main/resources/output/fp/";
+    private static final String baseFilename = "src/main/resources/output/";
 
     private final String filename;
     private final double width;
