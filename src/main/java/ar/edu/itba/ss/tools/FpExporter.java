@@ -9,21 +9,26 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
 
-public class CsvExporter implements Exporter {
-    private static final String baseFilename = "src/main/resources/output/";
+public class FpExporter implements Exporter {
+    private static final String baseFilename = "src/main/resources/output/fp/";
 
     private final String filename;
+    private final double width;
+    private double t;
+
     private CSVWriter csvWriterAppender;
 
-    public CsvExporter(String filename) {
+    public FpExporter(String filename, double width) {
         this.filename = filename;
+        this.width = width;
+        this.t = 0;
     }
 
     @Override
     public void open() {
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(baseFilename + filename));
-            writer.writeNext(new String[]{"iteration", "id", "x", "y", "speed", "angle"});
+            writer.writeNext(new String[]{"t", "fp"});
             writer.close();
 
             this.csvWriterAppender = new CSVWriter(new FileWriter(baseFilename + filename, true), CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
@@ -35,14 +40,25 @@ public class CsvExporter implements Exporter {
     @Override
     public void export(int i, Set<Particle> particles, Event event) {
         try {
-            csvWriterAppender.writeNext(new String[]{event != null ? event.toString() : ""});
-            particles.forEach(p -> {
-                String line = i + " " + p.toString();
-                csvWriterAppender.writeNext(line.split(" "));
-            });
+            double fp = getFp(particles);
+            this.t += event != null ? event.getTc() : 0;
+            csvWriterAppender.writeNext(new String[]{String.valueOf(t), String.valueOf(fp)});
         } catch (Exception e) {
             e.printStackTrace(); //TODO: handle exception
         }
+    }
+
+    private double getFp(Set<Particle> particles) {
+        int right = 0;
+        int left = 0;
+        for (Particle p : particles) {
+            if (p.getPosition().getX() > width / 2) {
+                right++;
+            } else {
+                left++;
+            }
+        }
+        return (double) right / (right + left);
     }
 
     @Override

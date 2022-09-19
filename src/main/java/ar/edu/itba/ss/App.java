@@ -5,6 +5,7 @@ import ar.edu.itba.ss.models.EventDriven;
 import ar.edu.itba.ss.models.Grid;
 import ar.edu.itba.ss.models.Particle;
 import ar.edu.itba.ss.tools.CsvExporter;
+import ar.edu.itba.ss.tools.FpExporter;
 import ar.edu.itba.ss.tools.ParticleReader;
 
 import java.io.IOException;
@@ -18,11 +19,12 @@ import java.util.List;
  */
 public class App {
     public static void main(String[] args) throws IOException {
-        final int iterations = 500;
+        final int iterations = 30000;
 
         String particlePath = args[0];
         String positionPath = args[1];
         String outputFilename = args.length < 3 ? "output.csv" : args[2];
+        String fpFilename = args.length < 4 ? "output_fp.csv" : args[3];
 
         Instant start = Instant.now();
 
@@ -32,13 +34,16 @@ public class App {
 
         Grid grid = new Grid(particles, enclosure.width(), enclosure.height(), enclosure.slot());
 
-        Exporter exporter = new CsvExporter(outputFilename);
-        exporter.open();
+        Exporter csvExporter = new CsvExporter(outputFilename);
+        Exporter fpExporter = new FpExporter(fpFilename, enclosure.width());
 
-        EventDriven eventDriven = new EventDriven(iterations, grid, exporter);
+        List<Exporter> exporters = List.of(csvExporter, fpExporter);
+        exporters.forEach(Exporter::open);
+
+        EventDriven eventDriven = new EventDriven(iterations, grid, exporters);
         eventDriven.simulate();
 
-        exporter.close();
+        exporters.forEach(Exporter::close);
 
         Instant end = Instant.now();
         System.out.println("Simulation: " + Duration.between(start, end));
