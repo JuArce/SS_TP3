@@ -155,7 +155,7 @@ public class Particle implements Movable {
 
     @Override
     public String toString() {
-        return String.format("%s %s %s %s %s", this.id, this.position.getX(), this.position.getY(), this.velocity.getSpeed(), this.velocity.getAngle());
+        return String.format("%s %s %s %s %s", this.id, this.position.getX(), this.position.getY(), this.velocity.getXSpeed(), this.velocity.getYSpeed());
     }
 
     @Override
