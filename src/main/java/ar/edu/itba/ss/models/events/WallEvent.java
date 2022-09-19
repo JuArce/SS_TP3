@@ -31,6 +31,14 @@ public class WallEvent implements Event {
     }
 
     @Override
+    public double getImpulse() {
+        return switch (wall) {
+            case TOP, BOTTOM -> 2 * particle.getMass() * Math.abs(particle.getVelocity().getYSpeed());
+            case LEFT, RIGHT, MIDDLE -> 2 * particle.getMass() * Math.abs(particle.getVelocity().getXSpeed());
+        };
+    }
+
+    @Override
     public String toString() {
         return String.format(Locale.ROOT ,"WC %s %s %g", particle.getId(), wall, tc);
     }

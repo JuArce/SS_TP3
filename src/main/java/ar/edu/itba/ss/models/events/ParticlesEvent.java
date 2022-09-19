@@ -31,6 +31,11 @@ public class ParticlesEvent implements Event {
     }
 
     @Override
+    public double getImpulse() {
+        return 0;
+    }
+
+    @Override
     public String toString() {
         return String.format(Locale.ROOT, "PC %s %s %g", particle1.getId(), particle2.getId(), tc);
     }

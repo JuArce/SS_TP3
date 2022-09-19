@@ -20,6 +20,7 @@ public class EventDriven {
     }
 
     public void simulate() {
+        double impulse = 0;
         int i = 0;
         while((tFinal == null || t < tFinal) && i < iterations) {
             int finalI = i;
@@ -38,6 +39,14 @@ public class EventDriven {
                 System.out.println(i + ": " + fP);
             }
             i++;
+
+            if (tEq != null) {
+                impulse += grid.getCurrentCollision() != null ? grid.getCurrentCollision().getImpulse() : 0;
+            }
         }
+        double force = impulse / (tFinal - tEq);
+        double pressure = force / grid.getPerimeter();
+        double avgEnergy = this.grid.getParticles().stream().mapToDouble(Particle::getKineticEnergy).sum() / this.grid.getParticles().size();
+        System.out.println("Pressure: " + pressure + "\nAvg Energy: " + avgEnergy);
     }
 }

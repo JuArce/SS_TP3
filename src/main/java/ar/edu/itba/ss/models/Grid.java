@@ -127,4 +127,8 @@ public class Grid {
         }
         return (double) right / (right + left);
     }
+
+    public double getPerimeter() {
+        return this.width * 2 + this.height * 2 + (this.height - this.slot) * 2;
+    }
 }

@@ -11,4 +11,6 @@ public interface Event extends Comparable<Event> {
     default boolean isValid() {
         return getTc() >= 0;
     }
+
+    double getImpulse();
 }

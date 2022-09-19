@@ -137,6 +137,10 @@ public class Particle implements Movable {
         }
     }
 
+    public double getKineticEnergy() {
+        return 0.5 * this.mass * (Math.pow(this.velocity.getXSpeed(), 2) + Math.pow(this.velocity.getYSpeed(), 2));
+    }
+
     @Override
     public void move(double dt) {
         this.position.setX(this.position.getX() + this.velocity.getXSpeed() * dt);
@@ -155,7 +159,7 @@ public class Particle implements Movable {
 
     @Override
     public String toString() {
-        return String.format("%s %s %s %s %s", this.id, this.position.getX(), this.position.getY(), this.velocity.getXSpeed(), this.velocity.getYSpeed());
+        return String.format("%s %s %s %s %s %s", this.id, this.position.getX(), this.position.getY(), this.velocity.getXSpeed(), this.velocity.getYSpeed(), this.getKineticEnergy());
     }
 
     @Override
