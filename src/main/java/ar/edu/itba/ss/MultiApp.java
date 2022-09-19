@@ -9,8 +9,8 @@ import java.util.Locale;
 
 public class MultiApp {
     public static void main(String[] args) {
-        final List<Integer> N = Arrays.asList(100, 200);
-        final List<Double> slot = Arrays.asList(0.01, 0.02, 0.05);
+        final List<Integer> N = Arrays.asList(200);
+        final List<Double> slot = Arrays.asList(0.05);
 
         final String extension = ".csv";
 
@@ -20,8 +20,9 @@ public class MultiApp {
                 final String dynamicNFile = String.format(Locale.ROOT, "src/main/resources/input/parameters/dynamic_N_%d_slot_%.2f%s", n, s, extension);
                 final String outputFilename = String.format(Locale.ROOT, "parameters/output_N_%d_slot_%.2f%s", n, s, extension);
                 final String fpFilename = String.format(Locale.ROOT, "fp/output_fp_N_%d_slot_%.2f%s", n, s, extension);
+                final String ovitoFilename = String.format(Locale.ROOT, "ovito/output_ovito_N_%d_slot_%.2f%s", n, s, extension);
                 try {
-                    App.main(new String[]{staticNFile, dynamicNFile, outputFilename, fpFilename});
+                    App.main(new String[]{staticNFile, dynamicNFile, outputFilename, fpFilename, ovitoFilename});
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
