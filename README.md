@@ -46,7 +46,7 @@ Genera múltiples parámetros para ser usados en app. Asegurarse de tener el dir
 Variables:
 
 * `final List<Integer> N = Arrays.asList(<N>);`: cantidad de partículas.
-* `final List<Double> slot = Arrays.asList(<slot>);`: largo del sistema en x (0.12).
+* `final List<Double> slot = Arrays.asList(<slot>);`: largo de ranura (0.01).
 
 ## [App](src/main/java/ar/edu/itba/ss/App.java)
 
@@ -66,4 +66,4 @@ Aplicación principal para creación de múltiples archivos de salida. Asegurars
 
 Variables:
 * `final List<Integer> N = Arrays.asList(<N>);`: cantidad de partículas.
-* `final List<Double> slot = Arrays.asList(<slot>);`: largo del sistema en x (0.12).
+* `final List<Double> slot = Arrays.asList(<slot>);`: largo de ranura (0.01).
