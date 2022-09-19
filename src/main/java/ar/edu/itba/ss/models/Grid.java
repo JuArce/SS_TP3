@@ -114,4 +114,17 @@ public class Grid {
 
         this.computedCollisions = new HashSet<>();
     }
+
+    public double getFp() {
+        int right = 0;
+        int left = 0;
+        for (Particle p : this.particles) {
+            if (p.getPosition().getX() > this.width / 2) {
+                right++;
+            } else {
+                left++;
+            }
+        }
+        return (double) right / (right + left);
+    }
 }
