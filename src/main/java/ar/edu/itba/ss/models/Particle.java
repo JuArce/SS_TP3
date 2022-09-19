@@ -106,13 +106,13 @@ public class Particle implements Movable {
         double dvdr = dx * dvx + dy * dvy;
 
         // J = 2 * mi mj * dvdr/sigma * (mi +mj)
-        double J = 2 * particle.getMass() * this.getMass() * dvdr / (sigma  * (particle.getMass() + this.getMass()));
+        double J = (2 * particle.getMass() * this.getMass() * dvdr) / (sigma  * (particle.getMass() + this.getMass()));
 
         // Jx = J * (delta_x)/(sigma)
-        double Jx = J * dx / sigma;
+        double Jx = (J * dx) / sigma;
 
         // Jy = J * (delta_y)/(sigma)
-        double Jy = J * dy / sigma;
+        double Jy = (J * dy) / sigma;
 
         // vx1' = vx1 + Jx / mi
         this.velocity.setXSpeed(this.velocity.getXSpeed() + Jx / this.getMass());
@@ -120,7 +120,7 @@ public class Particle implements Movable {
         // vy1' = vy1 + Jy / mi
         this.velocity.setYSpeed(this.velocity.getYSpeed() + Jy / this.getMass());
 
-        if (Double.compare(particle.getMass(), 100_000) == 0) {
+        if (Double.compare(particle.getMass(), 100_000_000) == 0) {
             return;
         }
         // vx2' = vx2 - Jx / mj

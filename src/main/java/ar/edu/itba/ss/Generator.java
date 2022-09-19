@@ -34,9 +34,10 @@ public class Generator {
         int i = 0;
         int retries = 0;
         while (i < N) {
+            double angle = getRandom(minRandomAngle, maxRandomAngle);
             Particle newParticle = new Particle(r, m,
                     new Point(getRandom(minRandomPositionX, maxRandomPositionX), getRandom(minRandomPositionY, maxRandomPositionY)),
-                    new Velocity(speed, getRandom(minRandomAngle, maxRandomAngle)));
+                    new Velocity(speed * Math.cos(angle), speed * Math.sin(angle)));
             System.out.println(newParticle);
             if (particles.stream().noneMatch(p -> p.distanceTo(newParticle) < 0)) {
                 particles.add(newParticle);
@@ -74,8 +75,8 @@ public class Generator {
                 List<String> line = new ArrayList<>();
                 line.add(String.valueOf(p.getPosition().getX()));
                 line.add(String.valueOf(p.getPosition().getY()));
-                line.add(String.valueOf(p.getVelocity().getSpeed()));
-                line.add(String.valueOf(p.getVelocity().getAngle()));
+                line.add(String.valueOf(p.getVelocity().getXSpeed()));
+                line.add(String.valueOf(p.getVelocity().getYSpeed()));
                 writer.writeNext(line.toArray(new String[0]));
             });
             writer.close();

@@ -6,38 +6,46 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Velocity {
-    private double speed;
-    private double angle;
+//    private double speed;
+//    private double angle;
+    private double xSpeed;
+    private double ySpeed;
 
     // Polar coordinates
-    public Velocity(double speed, double angle) {
-        this.speed = speed;
-        this.angle = angle;
+    public Velocity(double speedX, double speedY) {
+        this.xSpeed = speedX;
+        this.ySpeed = speedY;
     }
 
     public double getXSpeed() {
-        return this.speed * Math.cos(this.angle);
+        return xSpeed;
     }
 
     public void setXSpeed(double xSpeed) {
-        this.speed = Math.sqrt(xSpeed * xSpeed + this.getYSpeed() * this.getYSpeed());
-        this.angle = Math.atan2(this.getYSpeed(), xSpeed);
+        this.xSpeed = xSpeed;
     }
 
     public double getYSpeed() {
-        return this.speed * Math.sin(this.angle);
+        return ySpeed;
     }
 
     public void setYSpeed(double ySpeed) {
-        this.speed = Math.sqrt(this.getXSpeed() * this.getXSpeed() + ySpeed * ySpeed);
-        this.angle = Math.atan2(ySpeed, this.getXSpeed());
+        this.ySpeed = ySpeed;
+    }
+
+    public double getModule() {
+        return Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
+    }
+
+    public double getAngle() {
+        return Math.atan2(ySpeed, xSpeed);
     }
 
     @Override
     public String toString() {
         return "Velocity{" +
-                "speed=" + speed +
-                ", angle=" + angle +
+                "xSpeed=" + xSpeed +
+                ", ySpeed=" + ySpeed +
                 '}';
     }
 }

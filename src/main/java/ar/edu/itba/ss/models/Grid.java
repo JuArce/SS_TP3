@@ -29,8 +29,8 @@ public class Grid {
         this.height = height;
         this.slot = slot;
         setWallPositions(height, width);
-        this.middleTopWall = new Particle(0, 100_000, new Point(width / 2, (height + slot) / 2), new Velocity(0, 0));
-        this.middleBottomWall = new Particle(0, 100_000, new Point(width / 2, (height - slot) / 2), new Velocity(0, 0));
+        this.middleTopWall = new Particle(0, 100_000_000, new Point(width / 2, (height + slot) / 2), new Velocity(0, 0));
+        this.middleBottomWall = new Particle(0, 100_000_000, new Point(width / 2, (height - slot) / 2), new Velocity(0, 0));
     }
 
     private void setWallPositions(double height, double width) {
